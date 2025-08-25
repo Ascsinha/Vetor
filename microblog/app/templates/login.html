@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action="" method="post" novalidate> <!-- Form = Container; action = informa a navegador para onde os dados serão enviados após o seu envio realizado pelo usuário; method = especifica o método de solicitação HTTP que deve ser usado quando o formulário é enviado para o servidor. -->
+        {{ form.hidden_tag() }} <!-- Gera um campo escondido/secreto que vai incluir um token (secret key) para proteger os dados de possíveis ataques da CSRF(Cross-Site Request Forgery) -->
+        <p>
+            {{ form.username.label }} <br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }} <br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
