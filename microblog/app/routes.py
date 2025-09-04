@@ -14,11 +14,13 @@ from app.forms import RegistrationForm
 from datetime import datetime, timezone
 from app.forms import EditProfileForm
 from app.forms import EmptyForm
+from app.forms import 
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
+    form = PostForm()
     posts = [
     {
         'author': {'username': 'Theo'},
