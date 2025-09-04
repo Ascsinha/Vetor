@@ -108,3 +108,8 @@ Traceback (most recent call last):
                               ^^^^^^
 NameError: name 'kwards' is not defined
 2025-09-03 18:22:45,382 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 10:35:43,449 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 10:36:11,076 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 10:36:57,667 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 10:38:17,634 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 10:39:11,063 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
