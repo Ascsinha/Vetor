@@ -113,3 +113,4 @@ NameError: name 'kwards' is not defined
 2025-09-04 10:36:57,667 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
 2025-09-04 10:38:17,634 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
 2025-09-04 10:39:11,063 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:40]
+2025-09-04 17:00:25,402 INFO: Microblog startup [in C:\Users\monic\Vetor\microblog\app\__init__.py:42]
