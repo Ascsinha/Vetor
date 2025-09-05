@@ -1,14 +1,18 @@
-import os 
-os.environ['DATABASE'] = 'sqlite://'
-
+#!/usr/bin/env python
 from datetime import datetime, timezone, timedelta
 import unittest
-from app import app, db
+from app import create_app, db
 from app.models import User, Post
+from config import Config
 
-class UserModeCase(unittest.TestCase):
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'
+
+class UserModelCase(unittest.TestCase):
     def setUp(self):
-        self.app_context = app.app_context()
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
 
@@ -17,21 +21,21 @@ class UserModeCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def text_password_hashing(self):
-        u = User(username = 'susan', email = 'susan@example.com')
+    def test_password_hashing(self):
+        u = User(username='susan', email='susan@example.com')
         u.set_password('cat')
         self.assertFalse(u.check_password('dog'))
         self.assertTrue(u.check_password('cat'))
 
     def test_avatar(self):
-        u = User(username = 'john', email = 'john@example.com')
+        u = User(username='john', email='john@example.com')
         self.assertEqual(u.avatar(128), ('https://www.gravatar.com/avatar/'
                                          'd4c74594d841139328695756648b6bd6'
                                          '?d=identicon&s=128'))
-    
+
     def test_follow(self):
-        u1 = User(username = 'john', email = 'john@example.com')
-        u2 = User(username = 'susan', email = 'susan@example.com')
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
         db.session.add(u1)
         db.session.add(u2)
         db.session.commit()
@@ -57,30 +61,34 @@ class UserModeCase(unittest.TestCase):
         self.assertEqual(u2.followers_count(), 0)
 
     def test_follow_posts(self):
-        # Crie quatro usuários
-        u1 = User(username = 'john', email = 'john@example.com')
-        u2 = User(username = 'susan', email = 'susan@example.com')
-        u3 = User(username = 'mary', email = 'mary@example.com')
-        u4 = User(username =  'david', email = 'david@example.com')
+        # create four users
+        u1 = User(username='john', email='john@example.com')
+        u2 = User(username='susan', email='susan@example.com')
+        u3 = User(username='mary', email='mary@example.com')
+        u4 = User(username='david', email='david@example.com')
         db.session.add_all([u1, u2, u3, u4])
 
-        # Crie quatro posts
+        # create four posts
         now = datetime.now(timezone.utc)
-        p1 = Post(body = 'post do John', author = u1, timestamp = now + timedelta(seconds = 1))
-        p2 = Post(body = 'post da Susan', author = u2, timestamp = now + timedelta(seconds = 4))
-        p3 = Post(body = 'post da Mary', author = u3, timestamp = now + timedelta(seconds = 3))
-        p4 = Post(body = 'post do David', author = u4, timestamp = now + timedelta(seconds = 2))
+        p1 = Post(body="post from john", author=u1,
+                  timestamp=now + timedelta(seconds=1))
+        p2 = Post(body="post from susan", author=u2,
+                  timestamp=now + timedelta(seconds=4))
+        p3 = Post(body="post from mary", author=u3,
+                  timestamp=now + timedelta(seconds=3))
+        p4 = Post(body="post from david", author=u4,
+                  timestamp=now + timedelta(seconds=2))
         db.session.add_all([p1, p2, p3, p4])
         db.session.commit()
 
-        # Defina os seguidores
-        u1.follow(u2) # John segue Susan
-        u1.follow(u4) # John segue David
-        u2.follow(u3) # Susan segue Mary
-        u3.follow(u4) # Mary segue David
+        # setup the followers
+        u1.follow(u2)  # john follows susan
+        u1.follow(u4)  # john follows david
+        u2.follow(u3)  # susan follows mary
+        u3.follow(u4)  # mary follows david
         db.session.commit()
 
-        # Cheque os posts do seguidores de cada usuário
+        # check the following posts of each user
         f1 = db.session.scalars(u1.following_posts()).all()
         f2 = db.session.scalars(u2.following_posts()).all()
         f3 = db.session.scalars(u3.following_posts()).all()
@@ -91,4 +99,4 @@ class UserModeCase(unittest.TestCase):
         self.assertEqual(f4, [p4])
 
 if __name__ == '__main__':
-    unittest.main(verbosity = 2)
+    unittest.main(verbosity=2)
