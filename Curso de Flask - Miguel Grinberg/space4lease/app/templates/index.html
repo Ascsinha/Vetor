@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ _l(Olá, {{ user.username }}. Bem-vindo ao Space4Lease!) }}</h1>
+
+    <h2>{{ _l(Lugares em destaque) }}</h2>
+    {% for lugar in lugares %}
+
+    {% endfor %}
+
+    <h2>{{ _l(Lugares curtidos por você) }}</h2>
+    {% for like in likes %}
+
+    {% endfor %}
+{% endblock %}
