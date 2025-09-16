@@ -14,7 +14,7 @@ class Login(FlaskForm):
 
 class Telefone(FlaskForm):
     pais_codigo = IntegerField(_l('Código do país'), validators = [DataRequired()])
-    area_codigo = IntegerField(_l('Código de Área', validators = [DataRequired()]))
+    area_codigo = IntegerField(_l('Código de área'), validators = [DataRequired()])
     numero = StringField(_l('Número'))
 
 class Cadastro(FlaskForm):
