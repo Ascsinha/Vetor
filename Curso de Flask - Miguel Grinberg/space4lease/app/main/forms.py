@@ -7,4 +7,5 @@ from app import db
 from app.models import User
 
 class Reserva(FlaskForm):
+    nome_completo = StringField('Nome completo', validators = [DataRequired()])
     
