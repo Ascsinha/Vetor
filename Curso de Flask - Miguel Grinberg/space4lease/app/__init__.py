@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_babel import lazy_gettext as _l
+from flask_babel import Babel, lazy_gettext as _l
 from config import Config
 
 db = SQLAlchemy()
@@ -11,6 +11,7 @@ migrate = Migrate()
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = _l('Por favor, entre na sua conta para acessar esta página.')
+babel = Babel()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -19,6 +20,7 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login.init_app(app)
+    babel.init_app(app)
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
